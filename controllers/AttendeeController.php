@@ -21,12 +21,22 @@ class AttendeeController {
             echo json_encode(['errors' => $errors]);
             return;
         }
-        Attendee::update($id, $data);
+        $affected =  Attendee::update($id, $data);
+         if ($affected === 0) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Attendee ID not found']);
+            return;
+        }
         echo json_encode(['message' => 'Attendee updated successfully']);
     }
 
     public static function destroy($params) {
-        Attendee::delete($params['id']);
+         $affected = Attendee::delete($params['id']);
+         if ($affected === 0) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Attendee ID not found']);
+        return;
+    }
         echo json_encode(['message' => 'Attendee deleted']);
     }
 }

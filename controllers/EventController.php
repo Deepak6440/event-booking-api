@@ -25,12 +25,22 @@ class EventController {
             echo json_encode(['errors' => $errors]);
             return;
         }
-        Event::update($id, $data);
+        $affected = Event::update($id, $data);
+         if ($affected === 0) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Event ID not found']);
+            return;
+        }
         echo json_encode(['message' => 'Event updated successfully']);
     }
 
     public static function destroy($params) {
-        Event::delete($params['id']);
+          $affected = Event::delete($params['id']);
+    if ($affected === 0) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Event ID not found']);
+        return;
+    }
         echo json_encode(['message' => 'Event deleted']);
     }
 }

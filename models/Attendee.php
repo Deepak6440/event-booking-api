@@ -9,13 +9,20 @@ class Attendee {
     public static function update($id, $data) {
         $db = Database::connect();
         $stmt = $db->prepare("UPDATE attendees SET name=?, email=?, phone=? WHERE id=?");
-        return $stmt->execute([$data['name'], $data['email'], $data['phone'], $id]);
+        $stmt->execute([
+        $data['name'],
+        $data['email'],
+        $data['phone'],
+        $id
+    ]);
+        return $stmt->rowCount();
     }
 
     public static function delete($id) {
         $db = Database::connect();
         $stmt = $db->prepare("DELETE FROM attendees WHERE id = ?");
-        return $stmt->execute([$id]);
+        $stmt->execute([$id]);
+         return $stmt->rowCount();
     }
 }
 

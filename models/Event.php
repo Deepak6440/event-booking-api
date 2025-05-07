@@ -23,15 +23,22 @@ class Event {
     public static function update($id, $data) {
         $db = Database::connect();
         $stmt = $db->prepare("UPDATE events SET name=?, description=?, date=?, location=?, capacity=? WHERE id=?");
-        return $stmt->execute([
-            $data['name'], $data['description'], $data['date'], $data['location'], $data['capacity'], $id
-        ]);
+         $stmt->execute([
+        $data['name'],
+        $data['description'],
+        $data['date'],
+        $data['location'],
+        $data['capacity'],
+        $id
+    ]);
+          return $stmt->rowCount();
     }
 
     public static function delete($id) {
         $db = Database::connect();
         $stmt = $db->prepare("DELETE FROM events WHERE id = ?");
-        return $stmt->execute([$id]);
+        $stmt->execute([$id]);
+        return $stmt->rowCount();
     }
 }
 
